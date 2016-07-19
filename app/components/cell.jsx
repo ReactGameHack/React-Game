@@ -14,10 +14,10 @@ export default class Cell extends React.Component {
             display: 'inline-block',
             margin: '0px 0px 0px 0px',
             padding: '0px 0px 0px 0px',
-            width: '50px',
-            minWidth: '50px',
-            height: '50px',
-            minHeight: '50px',
+            width: '10px',
+            minWidth: '10px',
+            height: '10px',
+            minHeight: '10px',
             border:'solid 1px black',
             backgroundColor: this.isActiveCell(x, y) ? this.props.color : 'unset'
         }
@@ -28,7 +28,7 @@ export default class Cell extends React.Component {
                 className='cell'
                 style={this.createCellStyle(this.props.x, this.props.y)}
             >
-                {this.props.x}, {this.props.y}
+
             </div>
 
         )

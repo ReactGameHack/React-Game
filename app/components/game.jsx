@@ -2,6 +2,9 @@ import React from 'react';
 import keys from '../constants/keys';
 import {gameTickSize} from '../constants/game'
 import _ from 'lodash';
+import {Layer, Rect, Stage, Group} from 'react-konva';
+import MyRect from './MyRect';
+import Player from './Player';
 
 import Grid from './Grid.jsx';
 
@@ -51,12 +54,18 @@ export default class Game extends React.Component {
         return (
             <div>
                 { this.state.gameTime }
-                <Grid 
-                    position={this.state.position} 
-                    color={this.state.color}
-                />
+                <Stage width={500} height={500}>
+                  <Layer>
+                      <MyRect position={this.state.position} />
+                  </Layer>
+                </Stage>
             </div>
         )
     }
 
 }
+/*                <Grid 
+                      <Player position={this.state.position}  />
+                    position={this.state.position} 
+                    color={this.state.color}
+                /> */
