@@ -15,7 +15,8 @@ export default class Game extends React.Component {
             gameTime: 0,
             position: [0, 0],
             color: 'red',
-            player1: []
+            player1: [],
+            p1LastKey: keys.RIGHT
         }
     }
     componentDidMount(){
@@ -24,10 +25,43 @@ export default class Game extends React.Component {
         setInterval(()=>{
             this.setState({gameTime: this.state.gameTime + gameTickSize })
         }, gameTickSize)
+
+        setInterval(()=>{
+            var position = this.state.position;
+            var distance = 5;
+            switch (this.state.p1LastKey) {
+                case keys.LEFT:
+                    position[0] = position[0] - distance;
+                    break;
+                case keys.RIGHT:
+                    position[0] = position[0] + distance;
+                    break;
+                case keys.DOWN:
+                    position[1] = position[1] + distance;
+                    break;
+                case keys.UP:
+                    position[1] = position[1] - distance;
+                    break;
+            }
+            this.setState({position})
+        }, gameTickSize / 2)
+
+        setInterval(()=>{
+            var position = this.state.position;
+            var xMax = 100;
+            var yMax = 100;
+            if (position[0] < 0 || position[1] < 0 || position[0] < 0 || position[1] < 0) {
+
+            }
+        }, gameTickSize)
+
+
+
     }
     handleKeyDown(e){
         window.addEventListener('keydown', (e)=>{
             var position = _.clone(this.state.position);
+            var p1LastKey = _.clone(this.state.p1LastKey);
             var color = this.state.color;
             let tmp = this.state.player1;
             switch (e.keyCode){
@@ -65,7 +99,10 @@ export default class Game extends React.Component {
                 case keys.ENTER:
                     break;
             }
-            this.setState({position, color});
+            if (e.keyCode === keys.LEFT || e.keyCode === keys.RIGHT || e.keyCode === keys.UP || e.keyCode === keys.DOWN) {
+                p1LastKey = e.keyCode;
+            }
+            this.setState({position, color, p1LastKey});
         });
     }
     render(){
