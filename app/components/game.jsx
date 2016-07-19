@@ -29,18 +29,35 @@ export default class Game extends React.Component {
         setInterval(()=>{
             var position = this.state.position;
             var distance = 5;
+            let tmp = this.state.player1;
             switch (this.state.p1LastKey) {
                 case keys.LEFT:
                     position[0] = position[0] - distance;
+                    tmp.push([position[0], position[1]])
+                    this.setState({
+                        player1: tmp
+                    });
                     break;
                 case keys.RIGHT:
                     position[0] = position[0] + distance;
+                    tmp.push([position[0], position[1]])
+                    this.setState({
+                        player1: tmp
+                    });
                     break;
                 case keys.DOWN:
                     position[1] = position[1] + distance;
+                    tmp.push([position[0], position[1]])
+                    this.setState({
+                        player1: tmp
+                    });
                     break;
                 case keys.UP:
                     position[1] = position[1] - distance;
+                    tmp.push([position[0], position[1]])
+                    this.setState({
+                        player1: tmp
+                    });
                     break;
             }
             this.setState({position})
