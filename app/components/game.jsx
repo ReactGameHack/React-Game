@@ -14,7 +14,8 @@ export default class Game extends React.Component {
         this.state = {
             gameTime: 0,
             position: [0, 0],
-            color: 'red'
+            color: 'red',
+            player1: []
         }
     }
     componentDidMount(){
@@ -28,18 +29,35 @@ export default class Game extends React.Component {
         window.addEventListener('keydown', (e)=>{
             var position = _.clone(this.state.position);
             var color = this.state.color;
+            let tmp = this.state.player1;
             switch (e.keyCode){
                 case keys.LEFT:
                     --position[0];
+                    tmp.push([position[0], position[1]])
+                    this.setState({
+                        player1: tmp
+                    });
                     break;
                 case keys.RIGHT:
-                    ++position[0];
+                    ++position[0];                    
+                    tmp.push([position[0], position[1]])
+                    this.setState({
+                        player1: tmp
+                    });
                     break;
                 case keys.DOWN:
                     ++position[1];
+                    tmp.push([position[0], position[1]])
+                    this.setState({
+                        player1: tmp
+                    });
                     break;
                 case keys.UP:
                     --position[1];
+                    tmp.push([position[0], position[1]])
+                    this.setState({
+                        player1: tmp
+                    });
                     break;
                 case keys.SPACEBAR:
                     color = _.sample(['red', 'green', 'blue', 'yellow']);
@@ -51,11 +69,21 @@ export default class Game extends React.Component {
         });
     }
     render(){
+        console.log(this.state)
         return (
             <div>
                 { this.state.gameTime }
                 <Stage width={500} height={500}>
                     <MyRect position={this.state.position} />
+                    <Layer>
+                        {this.state.player1.map(position => (
+                            <Rect
+                                x={position[0]} y={position[1]} width={10} height={10}
+                                fill='purple'
+                                // shadowBlur={10}
+                            />
+                        ))}
+                    </Layer>
                 </Stage>
             </div>
         )
