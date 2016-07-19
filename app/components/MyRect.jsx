@@ -21,7 +21,7 @@ class MyRect extends React.Component {
         return (
           <Layer>
             <Rect
-                x={10} y={10} width={900} height={900}
+                width={500} height={500}
                 fill={this.state.color}
                 // shadowBlur={10}
                 onClick={this.handleClick}
