@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Layer, Rect, Stage, Group} from 'react-konva';
+import Player from './Player';
 
 class MyRect extends React.Component {
     constructor(props) {
@@ -18,12 +19,15 @@ class MyRect extends React.Component {
     render() {
         {console.log(this.props.position, this.props.y)}
         return (
+          <Layer>
             <Rect
                 x={10} y={10} width={900} height={900}
                 fill={this.state.color}
                 // shadowBlur={10}
                 onClick={this.handleClick}
             />
+            <Player position={this.props.position} />
+          </Layer>
         );
     }
 }

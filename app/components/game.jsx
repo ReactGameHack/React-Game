@@ -55,9 +55,7 @@ export default class Game extends React.Component {
             <div>
                 { this.state.gameTime }
                 <Stage width={500} height={500}>
-                  <Layer>
-                      <MyRect position={this.state.position} />
-                  </Layer>
+                    <MyRect position={this.state.position} />
                 </Stage>
             </div>
         )
