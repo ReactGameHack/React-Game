@@ -48,10 +48,14 @@ export default class Game extends React.Component {
 
         setInterval(()=>{
             var position = this.state.position;
-            var xMax = 100;
-            var yMax = 100;
-            if (position[0] < 0 || position[1] < 0 || position[0] < 0 || position[1] < 0) {
-                //hi
+            var xMax = 500;
+            var yMax = 500;
+            var playerSize = 10;
+            var distanceToWall = playerSize / 2;
+
+            if (position[0] < distanceToWall || position[1] < distanceToWall 
+                || position[0] > xMax - distanceToWall || position[1] > yMax - distanceToWall) {
+                console.log('EDGE HIT');
             }
         }, gameTickSize)
 
@@ -106,7 +110,7 @@ export default class Game extends React.Component {
         });
     }
     render(){
-        console.log(this.state)
+        //console.log(this.state)
         return (
             <div>
                 { this.state.gameTime }
