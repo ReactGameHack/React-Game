@@ -51,7 +51,7 @@ export default class Game extends React.Component {
             var xMax = 100;
             var yMax = 100;
             if (position[0] < 0 || position[1] < 0 || position[0] < 0 || position[1] < 0) {
-
+                //hi
             }
         }, gameTickSize)
 
