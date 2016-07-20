@@ -12,7 +12,13 @@ import Grid from './Grid.jsx';
 export default class Game extends React.Component {
     constructor(props){
         super(props);
-        var keyMap = {}
+        this.move_distance = 5;
+        this.directions = {
+            LEFT: {axis:'x', func:(xpos) => xpos - this.move_distance},
+            RIGHT: {axis:'x', func:(xpos) => xpos + this.move_distance},
+            UP: {axis:'y', func:(ypos) => ypos - this.move_distance},
+            DOWN: {axis:'y', func:(ypos) => ypos + this.move_distance}
+        }
         this.state = {
             gameTime: 0,
             position: [0, 0],
@@ -22,7 +28,13 @@ export default class Game extends React.Component {
             p1LastKey: keys.RIGHT
         }
     }
-
+    updateLocation(player, axis, callback) {
+        return {
+            players: update(this.state.players, {
+                [player]: { [axis]: {$apply: callback } }
+            })
+        }
+    }
     componentDidMount(){
         this.handleKeyDown();
 
@@ -32,49 +44,16 @@ export default class Game extends React.Component {
 
         setInterval(()=>{
             var position = this.state.position;
-            var distance = 5;
-            let tmp = this.state.player1;
+            var distance = 1;
             Object.keys(this.state.players).map((player) => {
-                var { direction } = this.state.players[player]; 
-                console.log('direction', player);
-                switch (direction) {
-                    case 'LEFT':
-                        var updatedPlayers = update(this.state.players, {
-                            player1: { x: {$apply: (xpos) => xpos - distance } }
-                        });
-                        this.setState({
-                            players: updatedPlayers
-                        })
-                        break;
-                    case 'RIGHT':
-                    console.log('moving right');
-                        var updatedPlayers1 = update(this.state.players, {
-                            player1: { x: {$apply: (xpos) => xpos - distance } }
-                        });
-                        this.setState({
-                            players: updatedPlayers1
-                        })
-                        break;
-                    case 'DOWN':
-                        var updatedPlayers2 = update(this.state.players, {
-                            player1: { y: {$apply: (ypos) => ypos + distance } }
-                        });
-                        this.setState({
-                            players: updatedPlayers2
-                        })
-                        break;
-                    case 'UP':
-                        var updatedPlayers3 = update(this.state.players, {
-                            player1: { y: {$apply: (ypos) => ypos - distance } }
-                        });
-                        this.setState({
-                            players: updatedPlayers3
-                        })
-                        break;
-                }
-                this.setState({position})
+                var { direction } = this.state.players[player];
+                const { axis, func } = this.directions[direction];
+                this.setState((state) => {
+                    return this.updateLocation(player, axis, func);
+                });
+                //this.setState({position})
             })
-        }, gameTickSize / 2)
+        }, gameTickSize)
 
         // setInterval(()=>{
         //     var position = this.state.position;
@@ -98,8 +77,10 @@ export default class Game extends React.Component {
             // var p1LastKey = _.clone(this.state.p1LastKey);
             // var color = this.state.color;
             // let tmp = this.state.player1;
+            console.log(e.keyCode);
             switch (e.keyCode){
                 case keys.LEFT:
+                    console.log(e.keyCode);
                     var updatedPlayers = update(this.state.players, {
                         player1: { direction: {$set :'LEFT'} }
                     });
