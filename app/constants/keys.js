@@ -4,5 +4,9 @@ export default {
     RIGHT: 39,
     DOWN: 40,
     SPACEBAR: 32,
-    ENTER: 13
+    ENTER: 13,
+    A: 31,
+    S: 32,
+    D: 33,
+    W: 18
 }

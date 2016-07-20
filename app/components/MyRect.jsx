@@ -17,7 +17,7 @@ class MyRect extends React.Component {
     //   });
     // }
     render() {
-        {console.log(this.props.position, this.props.y)}
+        // {console.log(this.props.position, this.props.y)}
         return (
           <Layer>
             <Rect
