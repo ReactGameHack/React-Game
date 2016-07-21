@@ -24,9 +24,7 @@ class MyRect extends React.Component {
                 width={500} height={500}
                 fill={this.state.color}
                 // shadowBlur={10}
-                onClick={this.handleClick}
             />
-            <Player position={this.props.position} />
           </Layer>
         );
     }
