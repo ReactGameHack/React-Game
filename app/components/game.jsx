@@ -19,7 +19,7 @@ export default class Game extends React.Component {
         // stores the id of the interval running the game so we can cancel after game over.
         this.intervalId = 0;
         this.state = {
-            position: [0, 0],
+            playerMap: new Array(50).fill(0).map(row => new Array(50).fill(0)),
             color: 'red',
             players: { player1: {x: 150, y:200, color: 'purple', direction: 'RIGHT'}, 
                       player2: { x: 300, y:200, color: 'yellow', direction: 'LEFT'}},
@@ -49,7 +49,23 @@ export default class Game extends React.Component {
             console.log(playername, ' EDGE HIT');
             clearInterval(this.intervalId);
             this.setState({gameOn: false, loser: playername});
+            //console.table(this.state.playerMap);
         }
+    }
+    recordPosition(playername, {x, y}) {
+        // for (var i = 0; i < 10; i++) {
+        //     for (var j = 0; j < 10; j++) {
+
+        //     }
+        // }
+        //var updateMap = update(this.state.playerMap, {$splice: [[x]][[[y],1, 1]]})
+        //console.log(this.state.playerMap);
+        var updateMap = this.state.playerMap.slice(0);
+        //console.log(updateMap);
+        //console.log('x/10', Math.floor(x / 10), 'y/10', Math.floor(y / 10));
+        updateMap[Math.floor(x / 10)][Math.floor(y / 10)] = 1;
+        //console.log('setting', Math.floor(x / 10), ':', Math.floor(y / 10));
+        this.setState({playerMap: updateMap});
     }
     kickOfTimer() {
         this.intervalId = setInterval(()=>{
@@ -77,7 +93,8 @@ export default class Game extends React.Component {
                     }
                 });
                 this.checkValidPositions(player, this.state.players[player]);
-                // this.recordPosition(player, this.state.players[player]);
+                this.recordPosition(player, this.state.players[player]);
+                //clearInterval(this.intervalId);
             })
         }, gameTickSize)
     }
@@ -90,12 +107,13 @@ export default class Game extends React.Component {
             // from ./constants/keys.js
             if (keys[e.keyCode]) {
                 const [player, direction] = keys[e.keyCode];
-                var updatedPlayers = update(this.state.players, {
-                    [player]: { direction: {$set : direction} }
+                this.setState((state) => {
+                    return {
+                        players: update(this.state.players, {
+                            [player]: { direction: {$set : direction} }
+                        })
+                    }
                 });
-                this.setState({
-                    players: updatedPlayers
-                })
             }
         });
     }
@@ -110,7 +128,7 @@ export default class Game extends React.Component {
         return (
             <div>
                 <Stage width={500} height={500} onClick={this.restart}>
-                    <MyRect position={this.state.position} />
+                    <MyRect playerMap={this.state.playerMap} />
                     <Banner running={this.state.gameOn} winner={this.state.loser} /> 
                     <Layer>
                         {Object.keys(this.state.players).map((player) => {
