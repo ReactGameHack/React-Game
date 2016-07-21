@@ -4,21 +4,12 @@ import {Layer, Rect, Stage, Group} from 'react-konva';
 import Player from './Player';
 import _ from 'lodash';
 
-class MyRect extends React.Component {
-    render() {
-        return (
-          <Layer>
-            <Rect
-                width={500} height={500}
-                fill='green'
-                // shadowBlur={10}
-            />
+/*
 
             {
-              
-              _.range(50).map((v, x) => {
+              _.range(10).map((v, x) => {
                 { 
-                  return _.range(50).map((v, y) => {
+                  return _.range(10).map((v, y) => {
                     //console.log('x,y', x, y);
                     //console.log(this.props.playerMap);
                     // var xloc = x * 10;
@@ -31,6 +22,18 @@ class MyRect extends React.Component {
                 }
               })
             }
+*/
+
+class MyRect extends React.Component {
+    render() {
+        return (
+          <Layer>
+            <Rect
+                width={this.props.width} height={this.props.height}
+                fill='green'
+                // shadowBlur={10}
+            />
+
           </Layer>
         );
     }

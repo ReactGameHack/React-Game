@@ -1,11 +1,12 @@
 import React from 'react';
 import keys from '../constants/keys';
-import {gameTickSize} from '../constants/game'
+import {sizeMultiplier, gridSize, gameTickSize} from '../constants/game'
 import _ from 'lodash';
 import {Layer, Rect, Stage, Group} from 'react-konva';
 import MyRect from './MyRect';
 import Player from './Player';
 import Banner from './banner';
+import Trail from './trail';
 import update from 'react-addons-update';
 
 import Grid from './Grid.jsx';
@@ -19,10 +20,10 @@ export default class Game extends React.Component {
         // stores the id of the interval running the game so we can cancel after game over.
         this.intervalId = 0;
         this.state = {
-            playerMap: new Array(50).fill(0).map(row => new Array(50).fill(0)),
+            playerMap: new Array(gridSize * gridSize).fill(0),
             color: 'red',
-            players: { player1: {x: 150, y:200, color: 'purple', direction: 'RIGHT'}, 
-                      player2: { x: 300, y:200, color: 'yellow', direction: 'LEFT'}},
+            players: { player1: {x: 25, y:10, color: 'purple', direction: 'RIGHT'}, 
+                      player2: { x: 75, y:10, color: 'yellow', direction: 'LEFT'}},
             gameOn: true,
             loser: undefined
         }
@@ -30,8 +31,8 @@ export default class Game extends React.Component {
     }
     restart() {
         this.setState({
-            players: { player1: {x: 150, y:200, color: 'purple', direction: 'RIGHT'}, 
-                      player2: { x: 300, y:200, color: 'yellow', direction: 'LEFT'}},
+            players: { player1: {x: 3, y:2, color: 'purple', direction: 'RIGHT'}, 
+                      player2: { x: 8, y:2, color: 'yellow', direction: 'LEFT'}},
             gameOn: true,
             loser: undefined
         })
@@ -39,13 +40,13 @@ export default class Game extends React.Component {
         clearInterval(this.intervalId);
     }
     checkValidPositions(playername, {x, y}) {
-        var xMax = 500;
-        var yMax = 500;
-        var playerSize = 10;
-        var distanceToWall = playerSize / 2;
+        var xMax = gridSize;
+        var yMax = gridSize;
+         var playerSize = 8;
+        // var distanceToWall = playerSize / 2;
 
-        if (x < distanceToWall || y < distanceToWall 
-            || x > xMax - distanceToWall || y > yMax - distanceToWall) {
+        if (x <= 0 || y <= 0 
+            || x >= xMax - 1 || y >= yMax - 1) {
             console.log(playername, ' EDGE HIT');
             
             console.log(playername);
@@ -65,14 +66,24 @@ export default class Game extends React.Component {
         var updateMap = this.state.playerMap.slice(0);
         //console.log(updateMap);
         //console.log('x/10', Math.floor(x / 10), 'y/10', Math.floor(y / 10));
-        updateMap[Math.floor(x / 10)][Math.floor(y / 10)] = 1;
+        updateMap[x * gridSize + y] = 1;
         //console.log('setting', Math.floor(x / 10), ':', Math.floor(y / 10));
-        this.setState({playerMap: updateMap});
+        var position = x * gridSize + y;
+        //this.setState({playerMap: updateMap});
+        console.log('setting position', position)
+        this.setState((state) => {
+            return {
+                playerMap: update(this.state.playerMap, {[position]: {$set: playername}})
+            }
+        });
+        //console.log(this.state.playerMap)
+
+
     }
     kickOfTimer() {
         this.intervalId = setInterval(()=>{
             // This is pretty dense and deserving of documentation.
-            const move_distance = 5;
+            const move_distance = 1;
             //Directions describes the what axis and how to modify a user's position in the state.
             const directions = {
                 LEFT: {axis:'x', func:(xpos) => xpos - move_distance},
@@ -131,17 +142,61 @@ export default class Game extends React.Component {
         // if (!this.state.gameOn) {
         //     let banner = ();
         // }
+
+/*
+
+                {
+                    _.range(10000).map((v, c) => {
+                        { 
+                            let x = Math.floor(c / 500);
+                            let y = c % 500;
+                            if (this.state.playerMap[x][y] === 1) {
+                             // console.log('displaying', 'x,y', x, y);
+                              return <Trail x={x} y={y} />;
+                            }
+                        }
+                    })
+                }
+
+
+*/
+
+
+
         return (
             <div>
-                <Stage width={500} height={500} onClick={this.restart}>
-                    <MyRect playerMap={this.state.playerMap} />
+                <Stage width={gridSize * 8} height={gridSize * 8} onClick={this.restart}>
+                    <MyRect height = {gridSize * 8} width = {gridSize * 8} playerMap={this.state.playerMap} />
                     <Banner running={this.state.gameOn} loser={this.state.loser} />
+
+                {
+                    _.range(gridSize * gridSize).map((v, c) => {
+                        { 
+
+                            //console.log('checking: ', x,':',y)
+                            if (this.state.playerMap[c]) {
+                                let x = Math.floor(c / gridSize);
+                                let y = c % gridSize;
+                                var player = this.state.playerMap[c];
+                                var color = this.state.players[player].color
+                                //console.log('displaying', 'x,y', x, y);
+                                return <Trail x={x * sizeMultiplier} y={y * sizeMultiplier} color={color}/>;
+                            }
+                        }
+                    })
+                }
+
+
+
                     <Layer>
                         {Object.keys(this.state.players).map((player) => {
                             var {x, y, color, direction} = this.state.players[player];
-                            return (<Rect x={x} y={y} width={10} height={10} fill={color} />);
+                            return (<Rect x={x * sizeMultiplier} y={y * sizeMultiplier} width={sizeMultiplier} height={sizeMultiplier} fill={color} />);
                         })}
                     </Layer>
+
+
+
                 </Stage>
             </div>
         )
