@@ -10,9 +10,13 @@ import update from 'react-addons-update';
 
 import Grid from './Grid.jsx';
 
+
+// Note if you have problems with some keys and vimium is installed, disable vimium as
+// it interferes with some key codes.
 export default class Game extends React.Component {
     constructor(props){
         super(props);
+        // stores the id of the interval running the game so we can cancel after game over.
         this.intervalId = 0;
         this.state = {
             position: [0, 0],
@@ -32,6 +36,7 @@ export default class Game extends React.Component {
             loser: undefined
         })
         this.kickOfTimer();
+        clearInterval(this.intervalId);
     }
     checkValidPositions(playername, {x, y}) {
         var xMax = 500;
@@ -82,41 +87,15 @@ export default class Game extends React.Component {
     }
     handleKeyDown(e){
         window.addEventListener('keydown', (e)=>{
-            // console.log(e.keyCode);
-            switch (e.keyCode){
-                case keys.LEFT:
-                    console.log(e.keyCode);
-                    var updatedPlayers = update(this.state.players, {
-                        player1: { direction: {$set :'LEFT'} }
-                    });
-                    this.setState({
-                        players: updatedPlayers
-                    })
-                    break;
-                case keys.RIGHT:
-                    var updatedPlayers1 = update(this.state.players, {
-                        player1: { direction: {$set :'RIGHT'} }
-                    });
-                    this.setState({
-                        players: updatedPlayers1
-                    })
-                    break;
-                case keys.DOWN:
-                    var updatedPlayers2 = update(this.state.players, {
-                        player1: { direction: {$set :'DOWN'} }
-                    });
-                    this.setState({
-                        players: updatedPlayers2
-                    })
-                    break;
-                case keys.UP:
-                    var updatedPlayers3 = update(this.state.players, {
-                        player1: { direction: {$set :'UP'} }
-                    });
-                    this.setState({
-                        players: updatedPlayers3
-                    })
-                    break;
+            // from ./constants/keys.js
+            if (keys[e.keyCode]) {
+                const [player, direction] = keys[e.keyCode];
+                var updatedPlayers = update(this.state.players, {
+                    [player]: { direction: {$set : direction} }
+                });
+                this.setState({
+                    players: updatedPlayers
+                })
             }
         });
     }
