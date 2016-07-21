@@ -47,8 +47,10 @@ export default class Game extends React.Component {
         if (x < distanceToWall || y < distanceToWall 
             || x > xMax - distanceToWall || y > yMax - distanceToWall) {
             console.log(playername, ' EDGE HIT');
-            clearInterval(this.intervalId);
+            
+            console.log(playername);
             this.setState({gameOn: false, loser: playername});
+            clearInterval(this.intervalId);
             //console.table(this.state.playerMap);
         }
     }
@@ -125,11 +127,15 @@ export default class Game extends React.Component {
     
     render(){
         //console.log(this.state)
+        // let banner = (<Layer></Layer>);
+        // if (!this.state.gameOn) {
+        //     let banner = ();
+        // }
         return (
             <div>
                 <Stage width={500} height={500} onClick={this.restart}>
                     <MyRect playerMap={this.state.playerMap} />
-                    <Banner running={this.state.gameOn} winner={this.state.loser} /> 
+                    <Banner running={this.state.gameOn} loser={this.state.loser} />
                     <Layer>
                         {Object.keys(this.state.players).map((player) => {
                             var {x, y, color, direction} = this.state.players[player];

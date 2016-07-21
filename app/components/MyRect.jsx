@@ -5,35 +5,7 @@ import Player from './Player';
 import _ from 'lodash';
 
 class MyRect extends React.Component {
-    // constructor(props) {
-    //   super(props);
-    //   this.state = {
-    //     color: 'green'
-    //   };
-    //   // this.handleClick = this.handleClick.bind(this);
-    // }
-    // handleClick() {
-    //   this.setState({
-    //     color: Konva.Util.getRandomColor()
-    //   });
-    // }
     render() {
-        //{console.log('pmap', this.props.playerMap)}
-        //console.table(this.props.playerMap);
-/*
-           {
-              _.range(this.props.playerMap.length).map((v, x) => {
-                { 
-                  _.range(this.props.playerMap.length).map((v, y) => {
-                    if (this.props.playerMap[x][y]) {
-                      return <Rect x={x} y={y} width={10} height={10} fill='blue'/>;
-                    }
-                  })
-                }
-              })
-            }  
-             { console.log(this.props.playerMap) }
-*/
         return (
           <Layer>
             <Rect
@@ -58,8 +30,7 @@ class MyRect extends React.Component {
                   })
                 }
               })
-            }  
-            <Rect x='30' y='30' width={10} height={10} fill='blue'/>
+            }
           </Layer>
         );
     }

@@ -19,15 +19,22 @@ class Banner extends React.Component {
     //   });
     // }
     componentDidMount(){
-      setInterval(()=>{
-        let color = _.sample(['red', 'silver', 'blue', 'yellow', 'white']);
-        this.setState({color});
-      }, 200)
+
+    }
+    componentWillReceiveProps() {
+      //console.log('props change');
+      if (!this.props.running) {
+        this.intervalId = setInterval(()=>{
+          let color = _.sample(['red', 'silver', 'blue', 'yellow', 'white']);
+          this.setState({color});
+        }, 200)
+      } else {
+        clearInterval(this.intervalId);
+      }
     }
 
-
     render() {
-        const message = `${this.props.loser} is the loser`;
+        let message = `${this.props.loser} is the loser`;
         if (!this.props.running) {
         return (
           <Layer>
@@ -39,7 +46,7 @@ class Banner extends React.Component {
             />
             <Text
                 x={110} y={80}
-                text={message}
+                text={this.props.loser + ' is the loser'}
                 fill='black'
                 fontSize='30'
             />
@@ -53,12 +60,7 @@ class Banner extends React.Component {
         );
       } else {
         return (<Layer> 
-              <Text
-                x={110} y={200}
-                text='Click to Play Again'
-                fill='green'
-                fontSize='30'
-            />
+
           </Layer>);
       }
     }
