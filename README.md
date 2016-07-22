@@ -2,7 +2,8 @@
 
 #  Player 1 uses asdw for controls
 #  Player 2 uses up down left right arrows for controls.
-#  If there are problems on chrome for player one, check if vimium is installed and disable.
+#  If there are problems on chrome for player one's controls, check if vimium is installed and disable.
+#  You can kill your character by carelessly reversing directions.
 
 #  Thanks for the Hackathon!  It was fun.
 
