@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Layer, Rect, Stage, Group} from 'react-konva';
-import Player from './Player';
 import _ from 'lodash';
 
 class Trail extends React.Component {

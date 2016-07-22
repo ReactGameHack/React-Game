@@ -1,3 +1,10 @@
+# Snakes in React from the Brandcast Hackathon
+
+#  Player 1 uses asdw for controls
+#  Player 2 uses up down left right arrows for controls.
+#  If there are problems on chrome for player one, check if vimium is installed and disable.
+
+#  Thanks for the Hackathon!  It was fun.
 
 
 # Brandcast React Hackathon

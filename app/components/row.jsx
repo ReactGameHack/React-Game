@@ -1,35 +1,25 @@
 import React from 'react';
-import {gridSize} from '../constants/game'
-
+import ReactDOM from 'react-dom';
+import {Layer, Rect, Stage, Group} from 'react-konva';
 import _ from 'lodash';
-import Cell from './cell.jsx';
+import Trail from './trail';
 
-export default class Row extends React.Component {
-    constructor(props){
-        super(props);
-    }
-    render(){
-        return (
-            <div 
-                className='row'
-                style={{
-                    margin: '0px 0px 0px 0px',
-                    padding: '0px 0px 0px 0px'
-                }}
-            >
-                { 
-                    _.range(gridSize).map((v, x)=>{
-                        return <Cell 
-                            key={x}
-                            y={this.props.y}
-                            x={x}
-                            color={this.props.color}
-                            position={this.props.position} 
-                        />;
-                    })
-                }
-            </div>
-        )
-    }
-
+class Row extends React.Component {
+  render() {
+    return (
+      <Layer>
+        {
+          _.range(this.props.gridSize).map((v, y) => {
+            if (this.props.playerMap[this.props.x][y]) {
+              var player = this.props.playerMap[this.props.x][y];
+              var color = this.props.players[player].color
+              return (<Trail x={this.props.x * this.props.sizeMultiplier} y={y * this.props.sizeMultiplier} color={color} />);
+            }
+          })
+        }
+      </Layer>
+    );
+  }
 }
+
+export default Row;

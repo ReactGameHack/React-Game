@@ -7,7 +7,8 @@ class Banner extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        color: 'green'
+        color: 'white',
+        flashing: false
       };
       //this.message = 'player1 is the loser';
       
@@ -22,19 +23,20 @@ class Banner extends React.Component {
 
     }
     componentWillReceiveProps() {
-      //console.log('props change');
-      if (!this.props.running) {
+      //console.log('props change', this.props.running);
+      if (!this.props.running && !this.state.flashing) {
+        console.log('setting timeout')
         this.intervalId = setInterval(()=>{
           let color = _.sample(['red', 'silver', 'blue', 'yellow', 'white']);
           this.setState({color});
         }, 200)
+        this.setState({flashing:true});
       } else {
         clearInterval(this.intervalId);
       }
     }
 
     render() {
-        let message = `${this.props.loser} is the loser`;
         if (!this.props.running) {
         return (
           <Layer>
