@@ -6,64 +6,52 @@ import _ from 'lodash';
 class Banner extends React.Component {
     constructor(props) {
       super(props);
+      this.intervalId = 0;
       this.state = {
-        color: 'white',
-        flashing: false
+        color: 'white'
       };
-      //this.message = 'player1 is the loser';
-      
-      // this.handleClick = this.handleClick.bind(this);
     }
-    // handleClick() {
-    //   this.setState({
-    //     color: Konva.Util.getRandomColor()
-    //   });
-    // }
-    componentDidMount(){
+    //componentWillReceiveProps() {
+      // //console.log('props change', this.props.running);
+      // if (!this.props.running && !this.state.flashing) {
+      //   console.log('flashing')
+      //   this.intervalId = setInterval(()=>{
+      //     let color = _.sample(['red', 'silver', 'blue', 'yellow', 'white']);
+      //     this.setState({color});
+      //   }, 200)
+      //   this.setState({flashing: true});
+      // } else if (this.state.flashing) {
+      //   clearInterval(this.intervalId);
+      // }
+    //}
 
-    }
-    componentWillReceiveProps() {
-      //console.log('props change', this.props.running);
-      if (!this.props.running && !this.state.flashing) {
-        console.log('setting timeout')
-        this.intervalId = setInterval(()=>{
-          let color = _.sample(['red', 'silver', 'blue', 'yellow', 'white']);
-          this.setState({color});
-        }, 200)
-        this.setState({flashing:true});
-      } else {
-        clearInterval(this.intervalId);
-      }
-    }
 
     render() {
-        if (!this.props.running) {
+      if (!this.props.running) {
         return (
           <Layer>
             <Text
                 x={80} y={20}
                 text='Game Over'
                 fill={this.state.color}
-                fontSize='60'
+                fontSize='80'
             />
             <Text
-                x={110} y={80}
+                x={120} y={110}
                 text={this.props.loser + ' is the loser'}
                 fill='black'
-                fontSize='30'
+                fontSize='40'
             />
             <Text
-                x={110} y={200}
+                x={120} y={200}
                 text='Click to Play Again'
                 fill='black'
-                fontSize='30'
+                fontSize='40'
             />
           </Layer>
         );
       } else {
-        return (<Layer> 
-
-          </Layer>);
+        return (<Layer></Layer>);
       }
     }
 }

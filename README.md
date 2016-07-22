@@ -1,11 +1,16 @@
 # Snakes in React from the Brandcast Hackathon
 
-#  Player 1 uses asdw for controls
-#  Player 2 uses up down left right arrows for controls.
-#  If there are problems on chrome for player one's controls, check if vimium is installed and disable.
-#  You can kill your character by carelessly reversing directions.
+- Player 1 uses asdw for controls
+- Player 2 uses up down left right arrows for controls.
+- If there are problems on chrome for player one's controls, check if vimium is installed and disable.
+- You can kill your character by carelessly reversing directions.
+- Tie Crashes usually go player 1.
 
-#  Thanks for the Hackathon!  It was fun.
+- Thanks for the Hackathon!  It was fun.
+
+- Authors:
+- Bill Ramsey
+- Jordan Tepper
 
 
 # Brandcast React Hackathon

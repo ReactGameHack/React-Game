@@ -7,17 +7,17 @@ import Trail from './trail';
 class Row extends React.Component {
   render() {
     return (
-      <Layer>
+      <Group>
         {
           _.range(this.props.gridSize).map((v, y) => {
             if (this.props.playerMap[this.props.x][y]) {
               var player = this.props.playerMap[this.props.x][y];
               var color = this.props.players[player].color
-              return (<Trail x={this.props.x * this.props.sizeMultiplier} y={y * this.props.sizeMultiplier} color={color} />);
+              return (<Trail key={this.props.x,y} x={this.props.x * this.props.sizeMultiplier} y={y * this.props.sizeMultiplier} color={color} />);
             }
           })
         }
-      </Layer>
+      </Group>
     );
   }
 }

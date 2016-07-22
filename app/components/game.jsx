@@ -6,10 +6,11 @@ import {Layer, Rect, Stage, Group} from 'react-konva';
 import Banner from './banner';
 import Trail from './trail';
 import update from 'react-addons-update';
-
+import Board from './board'
 
 // Note if you have problems with some keys and vimium is installed on Chrome, disable vimium as
 // it interferes with some key codes.
+
 export default class Game extends React.Component {
   constructor(props){
     super(props);
@@ -17,21 +18,23 @@ export default class Game extends React.Component {
         this.intervalId = 0;
         this.state = {
           playerMap: new Array(gridSize).fill(0).map(row => new Array(gridSize).fill(0)),
-          players: { player1: {x: 25, y:10, color: 'purple', direction: 'RIGHT'}, 
-          player2: { x: 75, y:10, color: 'yellow', direction: 'LEFT'}},
+          players: { player1: {x: 20, y:35, color: 'purple', direction: 'RIGHT'}, 
+          player2: { x: 55, y:35, color: 'yellow', direction: 'LEFT'}},
           gameOn: true,
-          loser: undefined
+          loser: undefined 
         }
         this.restart = this.restart.bind(this);
       }
       restart() {
+        clearInterval(this.intervalId);
+        //this.setState({gameOn: false, loser: 'player1'});
         this.setState({
           playerMap: new Array(gridSize).fill(0).map(row => new Array(gridSize).fill(0)),
-          players: { player1: {x: 25, y:10, color: 'purple', direction: 'RIGHT'}, 
-          player2: { x: 75, y:10, color: 'yellow', direction: 'LEFT'}},
+          players: { player1: {x: 20, y:35, color: 'purple', direction: 'RIGHT'}, 
+          player2: { x: 55, y:35, color: 'yellow', direction: 'LEFT'}},
           gameOn: true,
-          loser: undefined
-        })
+          loser: undefined 
+        });
         this.kickOfTimer();
       }
       gameOver(player) {
@@ -48,7 +51,7 @@ export default class Game extends React.Component {
         this.intervalId = setInterval(()=>{
             // This is pretty dense and deserving of documentation.
             const move_distance = 1;
-            //Directions describes the what axis and how to modify a user's position in the state.
+            //moveUser describes the what axis and how to modify a user's position in the state.
             const moveUser = {
               LEFT: (xpos, ypos) => [xpos - move_distance,ypos],
               RIGHT: (xpos, ypos) => [xpos + move_distance, ypos],
@@ -84,9 +87,6 @@ export default class Game extends React.Component {
                     playerMap: updatedPlayerMap
                   }
                 });
-                //this.checkValidPositions(player, this.state.players[player]);
-                //this.recordPosition(player, this.state.players[player]);
-                //clearInterval(this.intervalId);
               })
           }, gameTickSize)
       }
@@ -109,48 +109,20 @@ export default class Game extends React.Component {
             }
           });
       }
-
-    //  Game Over with winner.
-    //  Edge Detection
-    //  Path Run into detection.
-    //  Second player
-      /*
-
-            */
-
     render(){
         return (
           <div>
           <Stage width={gridSize * sizeMultiplier} height={gridSize * sizeMultiplier} onClick={this.restart}>
 
-          <Layer>
-          <Rect 
-            width={gridSize * sizeMultiplier} 
-            height={gridSize * sizeMultiplier} 
-            fill='green'
-          />
-          </Layer>
-
-            <Banner running={this.state.gameOn} loser={this.state.loser} />
-            
-            {
-              _.range(gridSize).map((v, x) => {
-                {
-                  return _.range(gridSize).map((v, y) => {
-                    if (this.state.playerMap[x][y]) {
-                      var player = this.state.playerMap[x][y];
-                      var color = this.state.players[player].color
-                      return <Trail x={x * sizeMultiplier} y={y * sizeMultiplier} color={color}/>;
-                    }
-                  });
-                }
-              })
-            }
+            <Board gridSize={gridSize} sizeMultiplier={sizeMultiplier} 
+              playerMap={this.state.playerMap} 
+              players={this.state.players} />
+            <Banner key={this.state.loser} running={this.state.gameOn} loser={this.state.loser} />
 
             <Layer>
               {Object.keys(this.state.players).map((player) => {
                 var {x, y, color, direction} = this.state.players[player];
-                return (<Rect x={x * sizeMultiplier} y={y * sizeMultiplier} width={sizeMultiplier} height={sizeMultiplier} fill={color} />);
+                return (<Rect key={player} x={x * sizeMultiplier} y={y * sizeMultiplier} width={sizeMultiplier} height={sizeMultiplier} fill={color} />);
               })}
             </Layer>
 
