@@ -13,7 +13,7 @@ class Board extends React.Component {
         <Rect 
           width={this.props.gridSize * this.props.sizeMultiplier} 
           height={this.props.gridSize * this.props.sizeMultiplier} 
-          fill='green'
+          fill='#b8b894'
         />
         {
           _.range(this.props.gridSize).map((v, x) => {

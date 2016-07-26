@@ -27,7 +27,7 @@ class Banner extends React.Component {
 
 
     render() {
-      if (!this.props.running) {
+      if (this.props.running === 'over') {
         return (
           <Layer>
             <Text
@@ -47,6 +47,35 @@ class Banner extends React.Component {
                 text='Click to Play Again'
                 fill='black'
                 fontSize='40'
+            />
+          </Layer>
+        );
+      } else if (this.props.running === 'start') {
+        return (
+          <Layer>
+            <Text
+                x={150} y={20}
+                text='Snakes!'
+                fill={this.state.color}
+                fontSize='80'
+            />
+            <Text
+                x={180} y={110}
+                text='click to start'
+                fill='black'
+                fontSize='40'
+            />
+            <Text
+                x={100} y={160}
+                text='Player 1 uses asdw to control'
+                fill='black'
+                fontSize='30'
+            />
+            <Text
+                x={130} y={210}
+                text='Player 2 uses arrow keys'
+                fill='black'
+                fontSize='30'
             />
           </Layer>
         );

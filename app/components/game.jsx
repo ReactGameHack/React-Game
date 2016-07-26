@@ -19,26 +19,28 @@ export default class Game extends React.Component {
         this.state = {
           playerMap: new Array(gridSize).fill(0).map(row => new Array(gridSize).fill(0)),
           players: { player1: {x: 20, y:35, color: 'purple', direction: 'RIGHT'}, 
-          player2: { x: 55, y:35, color: 'yellow', direction: 'LEFT'}},
-          gameOn: true,
+                      player2: { x: 55, y:35, color: 'yellow', direction: 'LEFT'}},
+          gameOn: 'start',
           loser: undefined 
         }
         this.restart = this.restart.bind(this);
       }
       restart() {
-        clearInterval(this.intervalId);
+        if (this.intervalId !== 0) {
+          clearInterval(this.intervalId);
+        }
         //this.setState({gameOn: false, loser: 'player1'});
         this.setState({
           playerMap: new Array(gridSize).fill(0).map(row => new Array(gridSize).fill(0)),
           players: { player1: {x: 20, y:35, color: 'purple', direction: 'RIGHT'}, 
-          player2: { x: 55, y:35, color: 'yellow', direction: 'LEFT'}},
-          gameOn: true,
+                      player2: { x: 55, y:35, color: 'yellow', direction: 'LEFT'}},
+          gameOn: 'running',
           loser: undefined 
         });
         this.kickOfTimer();
       }
       gameOver(player) {
-        this.setState({gameOn: false, loser: player});
+        this.setState({gameOn: 'over', loser: player});
         clearInterval(this.intervalId);
       }
       checkValidPositions(playername, {x, y}) {
@@ -92,7 +94,6 @@ export default class Game extends React.Component {
       }
       componentDidMount(){
         this.handleKeyDown();
-        this.kickOfTimer();
       }
       handleKeyDown(e){
         window.addEventListener('keydown', (e)=>{
